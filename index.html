@@ -213,7 +213,7 @@
                     </div>
                   </div>
                   <div class="box-body">
-                    <div class="ct-chart ct-perfect-fifth" id="chart1"></div>
+                    <div class="ct-chart ct-square" id="chart1"></div>
                     <script src="bower_components/chartist/dist/chartist.js"></script>
                     <!-- <script src="bower_components/chartist-plugin-axistitle/dist/chartist-plugin-axistitle.js"></script> -->
                     <script src="bower_components/chartist-plugin-pointlabels/dist/chartist-plugin-pointlabels.js"></script>
@@ -221,7 +221,7 @@
                     window.onload = function() { init() };
 
                     function init() {
-                        alert("Populating chart...");
+                        //alert("Populating chart...");
                         var agents = [];
                         var call_counts = [];
                          var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1lvQ3NGvU7PGbPWwuYzccblFPCnY-ln00EJO0IO1Bacc/pubhtml?gid=1925952226&single=true';
@@ -250,10 +250,10 @@
                                 offset: 70
                                 },
                                 axisX: {
-                                    high: 100,
-                                    low: 0,
+                                    onlyInteger: true
                                 }}).on('draw', function(data) {
                                     if(data.type === 'bar') {
+                                        // Animate bars
                                         data.element.animate({
                                             x2: {
                                                 begin: 0,
@@ -269,12 +269,11 @@
                                         label = new Chartist.Svg('text');
                                         label.text(value);
                                         label.addClass("ct-barlabel");
-                                        barVerticalCenter = data.y1+2.5;
                                         label.attr({
                                             x: barHorizontalCenter,
                                             y: barVerticalCenter,
                                             'text-anchor': 'end',
-                                            style: "fill: #ffffff; font-size: 50%;"
+                                            style: "fill: #ffffff; font-size: 75%;"
                                         });
                                         return data.group.append(label);
                                     }
@@ -363,111 +362,63 @@
                         $('#calendar').fullCalendar('refetchEventSources', { googleCalendarId:'concordpropertybase@gmail.com' });
                     };
 
-                    // function repopulate() {
-                    //     var agents = [];
-                    //     var call_counts = [];
-                    //      var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1lvQ3NGvU7PGbPWwuYzccblFPCnY-ln00EJO0IO1Bacc/pubhtml?gid=1925952226&single=true';
-                        //var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1hriSgPMcEnjEOaAZ3d0gGMPtkt_dUU1edTkspvoveDk/pubhtml?gid=0&single=true';
+                    function repopulate() {
+                        var agents = [];
+                        var call_counts = [];
+                         var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1lvQ3NGvU7PGbPWwuYzccblFPCnY-ln00EJO0IO1Bacc/pubhtml?gid=1925952226&single=true';
+                        // var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1hriSgPMcEnjEOaAZ3d0gGMPtkt_dUU1edTkspvoveDk/pubhtml?gid=0&single=true';
 
 
-                        // function showInfo(data, tabletop) {
-                        //     for (var i = 0; i < data.length; i++) {
-                        //         agents.push(data[i].Agent);
-                        //         call_counts.push(data[i]['Call Count']);
-                        //     }
-                        //     console.log(agents);
-                        //     console.log(call_counts);
-                        //     alert("Repopulating chart... " + call_counts);
-                        //     var myChart = $('#chart1');
-                            // myChart.get(0).__chartist__.update({
-                            //     labels: agents,
-                            //     series: [ call_counts ]
-                            // });
-                        //     .on('draw', function(data) {
-                        //       if(data.type === 'bar') {
-                        //         var barHorizontalCenter, barVerticalCenter, label, value;
-                        //           if (data.type === "bar") {
-                        //               // To support gradient color - http://jsbin.com/nihujepoxi/edit?css,js,output
-                        //              data.element.attr({
-                        //                   y1: data.y1 + 0.001
-                        //              })
-                        //               // Animate bars
-                        //               data.element.animate({
-                        //                 x2: {
-                        //                     begin: 0,
-                        //                     dur: 1000,
-                        //                     from: data.x1,
-                        //                     to: data.x2
-                        //                 }
-                        //             }, false);
-                        //               // Adds bar value labels - https://github.com/gionkunz/chartist-js/issues/281
-                        //               barHorizontalCenter = data.x1 + (data.element.width())-3;
-                        //               barVerticalCenter = data.y1+3.5;
-                        //             value = data.element.attr('ct:value');
-                        //             if (value !== '0') {
-                        //               label = new Chartist.Svg('text');
-                        //               label.text(value);
-                        //               label.addClass("ct-barlabel");
-                        //               if(screen.width > 3000){
-                        //                   barVerticalCenter = data.y1+5;
-                        //                   label.attr({
-                        //                     x: barHorizontalCenter,
-                        //                     y: barVerticalCenter,
-                        //                     'text-anchor': 'end',
-                        //                     style: "fill: #ffffff; font-size: 125%;"
-                        //                   });
-                        //               }
-                        //               else if(screen.width <= 500){
-                        //                   barVerticalCenter = data.y1+2.5;
-                        //                   label.attr({
-                        //                     x: barHorizontalCenter,
-                        //                     y: barVerticalCenter,
-                        //                     'text-anchor': 'end',
-                        //                     style: "fill: #ffffff; font-size: 50%;"
-                        //                   });
-                        //               }
-                        //               else {
-                        //               label.attr({
-                        //                 x: barHorizontalCenter,
-                        //                 y: barVerticalCenter,
-                        //                 'text-anchor': 'end',
-                        //                 style: "fill: #ffffff; font-size: 75%;"
-                        //               });
-                        //             }
-                        //               return data.group.append(label);
-                        //             }
-                        //           }
-                        //         }
-                        // });
-                        // myChart.on('created', function(data) {
-                        //     var defs = data.svg.elem('defs');
-                        //     defs.elem('linearGradient', {
-                        //       id: 'gradient',
-                        //       x1: 0,
-                        //       y1: 0,
-                        //       x2: 1,
-                        //       y2: 0
-                        //   }).elem('stop', {
-                        //       offset: 0,
-                        //       'stop-color': 'hsla(30, 100%, 50%, 1)'
-                        //   }).parent().elem('stop', {
-                        //       offset: 1,
-                        //       'stop-color': 'hsla(33, 100%, 50%, 1)'
-                        //     });
-                        // });
-                        // myChart.on('created', function(context) {
-                        //   console.log(context.axisX.bounds.high);
-                        // });
-                    //     }
-                    //     Tabletop.init( { key: public_spreadsheet_url, callback: showInfo, simpleSheet: true } );
-                    //     console.log("Repopulating calendar...");
-                    //     $('#calendar').fullCalendar('refetchEventSources', { googleCalendarId:'concordpropertybase@gmail.com' });
-                    // }
+                        function showInfo(data, tabletop) {
+                            for (var i = 0; i < data.length; i++) {
+                                agents.push(data[i].Agent);
+                                call_counts.push(data[i]['Call Count']);
+                            }
+                            console.log(agents);
+                            console.log(call_counts);
+                            //alert("Repopulating chart... " + call_counts);
+                            var myChart = $('#chart1');
+                            myChart.get(0).__chartist__.update({
+                                labels: agents,
+                                series: [ call_counts ]
+                            });
+                            myChart.on('draw', function(data) {
+                                if(data.type === 'bar') {
+                                    // Animate bars
+                                    data.element.animate({
+                                        x2: {
+                                            begin: 0,
+                                            dur: 1000,
+                                            from: data.x1,
+                                            to: data.x2
+                                        }
+                                    }, false);
+                                    barHorizontalCenter = data.x1 + (data.element.width())-3;
+                                    barVerticalCenter = data.y1+3.5;
+                                    value = data.element.attr('ct:value');
+                                    if (value !== '0') {
+                                    label = new Chartist.Svg('text');
+                                    label.text(value);
+                                    label.addClass("ct-barlabel");
+                                    label.attr({
+                                        x: barHorizontalCenter,
+                                        y: barVerticalCenter,
+                                        'text-anchor': 'end',
+                                        style: "fill: #ffffff; font-size: 75%;"
+                                    });
+                                    return data.group.append(label);
+                                }
+                            }});
+                        }
+                        Tabletop.init( { key: public_spreadsheet_url, callback: showInfo, simpleSheet: true } );
+                        console.log("Repopulating calendar...");
+                        $('#calendar').fullCalendar('refetchEventSources', { googleCalendarId:'concordpropertybase@gmail.com' });
+                    }
 
                     //Re-populate the chart every 15 seconds
-                    // window.setInterval(function(){
-                    //     repopulate();
-                    // }, 20000);
+                    window.setInterval(function(){
+                        repopulate();
+                    }, 20000);
                     </script>
                   </div>
                   <!-- ./box-body -->
