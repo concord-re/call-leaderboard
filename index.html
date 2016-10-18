@@ -27,7 +27,7 @@
         /* Colour of your bars */
         /*stroke:  #e76120;*/
         /*stroke: url(#gradient);*/
-        stroke: #E76120;
+        stroke: #FF8C00;
         stroke-width: 1em;
     }
 
@@ -252,6 +252,32 @@
                                 axisX: {
                                     high: 100,
                                     low: 0,
+                                }}).on('draw', function(data) {
+                                    if(data.type === 'bar') {
+                                        data.element.animate({
+                                            x2: {
+                                                begin: 0,
+                                                dur: 1000,
+                                                from: data.x1,
+                                                to: data.x2
+                                            }
+                                        }, false);
+                                        barHorizontalCenter = data.x1 + (data.element.width())-3;
+                                        barVerticalCenter = data.y1+3.5;
+                                        value = data.element.attr('ct:value');
+                                        if (value !== '0') {
+                                        label = new Chartist.Svg('text');
+                                        label.text(value);
+                                        label.addClass("ct-barlabel");
+                                        barVerticalCenter = data.y1+2.5;
+                                        label.attr({
+                                            x: barHorizontalCenter,
+                                            y: barVerticalCenter,
+                                            'text-anchor': 'end',
+                                            style: "fill: #ffffff; font-size: 50%;"
+                                        });
+                                        return data.group.append(label);
+                                    }
                                 }});
                                 //onlyInteger: true
                                 // ticks: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
