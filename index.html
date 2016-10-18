@@ -202,7 +202,7 @@
                 <div class="box box-primary">
                   <div class="box-header with-border">
 
-                    <h3 class="box-title"><i class="fa fa-bar-chart-o"></i> Live Call Leaderboard Test2</h3>
+                    <h3 class="box-title"><i class="fa fa-bar-chart-o"></i> Live Call Leaderboard Test3</h3>
 
                     <div class="box-tools pull-right">
                       <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -331,7 +331,7 @@
                         console.log("Repopulating calendar...");
                         $('#calendar').fullCalendar('refetchEventSources', { googleCalendarId:'concordpropertybase@gmail.com' });
                     }
-                      
+
                     function repopulate() {
                         alert("Repopulating chart...");
                         var agents = [];
@@ -348,8 +348,8 @@
                             }
                             console.log(agents);
                             console.log(call_counts);
-                            var myChart = $('#chart1 .ct-chart');
-                            myChart.update({
+                            var myChart = $('#chart1');
+                            myChart.get(0).__chartist__.update({
                                 labels: agents,
                                 series: [
                                     call_counts
