@@ -331,6 +331,35 @@
                         console.log("Repopulating calendar...");
                         $('#calendar').fullCalendar('refetchEventSources', { googleCalendarId:'concordpropertybase@gmail.com' });
                     }
+                      
+                    function repopulate() {
+                        alert("Repopulating chart...");
+                        var agents = [];
+                        var call_counts = [];
+                         var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1lvQ3NGvU7PGbPWwuYzccblFPCnY-ln00EJO0IO1Bacc/pubhtml?gid=1925952226&single=true';
+                        //var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1hriSgPMcEnjEOaAZ3d0gGMPtkt_dUU1edTkspvoveDk/pubhtml?gid=0&single=true';
+
+
+                        function showInfo(data, tabletop) {
+                            for (var i = 0; i < data.length; i++) {
+                                agents.push(data[i].Agent);
+                                call_counts.push(data[i]['Call Count']);
+
+                            }
+                            console.log(agents);
+                            console.log(call_counts);
+                            var myChart = $('#chart1 .ct-chart');
+                            myChart.update({
+                                labels: agents,
+                                series: [
+                                    call_counts
+                                ]
+                            });
+                        }
+                        Tabletop.init( { key: public_spreadsheet_url, callback: showInfo, simpleSheet: true } )
+                        console.log("Repopulating calendar...");
+                        $('#calendar').fullCalendar('refetchEventSources', { googleCalendarId:'concordpropertybase@gmail.com' });
+                    }
 
                     //Re-populate the chart every 15 seconds
                     window.setInterval(function(){
