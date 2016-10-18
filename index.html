@@ -202,7 +202,7 @@
                 <div class="box box-primary">
                   <div class="box-header with-border">
 
-                    <h3 class="box-title"><i class="fa fa-bar-chart-o"></i> Live Call Leaderboard Test3</h3>
+                    <h3 class="box-title"><i class="fa fa-bar-chart-o"></i> Live Call Leaderboard Test4</h3>
 
                     <div class="box-tools pull-right">
                       <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -333,7 +333,6 @@
                     }
 
                     function repopulate() {
-                        alert("Repopulating chart...");
                         var agents = [];
                         var call_counts = [];
                          var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1lvQ3NGvU7PGbPWwuYzccblFPCnY-ln00EJO0IO1Bacc/pubhtml?gid=1925952226&single=true';
@@ -348,13 +347,88 @@
                             }
                             console.log(agents);
                             console.log(call_counts);
+                            alert("Repopulating chart... " + call_counts);
                             var myChart = $('#chart1');
                             myChart.get(0).__chartist__.update({
                                 labels: agents,
                                 series: [
                                     call_counts
                                 ]
+                            }).on('draw', function(data) {
+                              if(data.type === 'bar') {
+                                var barHorizontalCenter, barVerticalCenter, label, value;
+                                  if (data.type === "bar") {
+                                      // To support gradient color - http://jsbin.com/nihujepoxi/edit?css,js,output
+                                     data.element.attr({
+                                          y1: data.y1 + 0.001
+                                     })
+                                      // Animate bars
+                                      data.element.animate({
+                                        x2: {
+                                            begin: 0,
+                                            dur: 1000,
+                                            from: data.x1,
+                                            to: data.x2
+                                        }
+                                    }, false);
+                                      // Adds bar value labels - https://github.com/gionkunz/chartist-js/issues/281
+                                      barHorizontalCenter = data.x1 + (data.element.width())-3;
+                                      barVerticalCenter = data.y1+3.5;
+                                    value = data.element.attr('ct:value');
+                                    if (value !== '0') {
+                                      label = new Chartist.Svg('text');
+                                      label.text(value);
+                                      label.addClass("ct-barlabel");
+                                      if(screen.width > 3000){
+                                          barVerticalCenter = data.y1+5;
+                                          label.attr({
+                                            x: barHorizontalCenter,
+                                            y: barVerticalCenter,
+                                            'text-anchor': 'end',
+                                            style: "fill: #ffffff; font-size: 125%;"
+                                          });
+                                      }
+                                      else if(screen.width <= 500){
+                                          barVerticalCenter = data.y1+2.5;
+                                          label.attr({
+                                            x: barHorizontalCenter,
+                                            y: barVerticalCenter,
+                                            'text-anchor': 'end',
+                                            style: "fill: #ffffff; font-size: 50%;"
+                                          });
+                                      }
+                                      else {
+                                      label.attr({
+                                        x: barHorizontalCenter,
+                                        y: barVerticalCenter,
+                                        'text-anchor': 'end',
+                                        style: "fill: #ffffff; font-size: 75%;"
+                                      });
+                                    }
+                                      return data.group.append(label);
+                                    }
+                                  }
+                                }
+                        });
+                        myChart.on('created', function(data) {
+                            var defs = data.svg.elem('defs');
+                            defs.elem('linearGradient', {
+                              id: 'gradient',
+                              x1: 0,
+                              y1: 0,
+                              x2: 1,
+                              y2: 0
+                          }).elem('stop', {
+                              offset: 0,
+                              'stop-color': 'hsla(30, 100%, 50%, 1)'
+                          }).parent().elem('stop', {
+                              offset: 1,
+                              'stop-color': 'hsla(33, 100%, 50%, 1)'
                             });
+                        });
+                        myChart.on('created', function(context) {
+                          console.log(context.axisX.bounds.high);
+                        });
                         }
                         Tabletop.init( { key: public_spreadsheet_url, callback: showInfo, simpleSheet: true } )
                         console.log("Repopulating calendar...");
