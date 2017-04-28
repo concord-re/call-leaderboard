@@ -359,7 +359,7 @@
                 <div class="box box-info box-solid">
                     <div class="box-header with-border bg-blue-gradient">
 
-                      <h3 class="box-title"><i class="fa fa-calendar"></i> Calendar</h3>
+                      <h3 class="box-title"><i class="fa fa-newspaper-o"></i> Deals & Announcements</h3>
 
                       <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -370,7 +370,7 @@
                     </div>
                     <div class="box-body">
                     <!-- THE CALENDAR -->
-                        <div id="calendar"></div>
+                        <div id="calendar" style="height:750px;"></div>
                     </div>
                     <!-- /.box-body -->
                     <!-- <div class="box-footer">
@@ -426,6 +426,7 @@
                 googleCalendarId: 'concordpropertybase@gmail.com'
             }
         });
+        calendar.fullCalendar('changeView', 'listDay');
     });
 
     </script>
